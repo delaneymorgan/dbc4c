@@ -1,0 +1,17 @@
+Version 1.0.3
+- Fixed ORGANISATION typo
+- Added RELEASE macro
+- modified RELEASEIF macro
+- Updated comments for new features
+- Added URL for project
+- Added README.txt
+
+Version 1.0.2
+- Added README.txt
+- improved ORGANISATION def handling
+
+Version 1.0.1
+- Replaced hostile copyright notice with friendly copyright notice
+
+Version 1.0
+- Initial Version
