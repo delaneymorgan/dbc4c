@@ -388,14 +388,15 @@
 
 
 // conditionally free file descriptor
+// > 2 file descriptor => open file (stdin = 0, stdout = 1, stderr = 2)
 #define CLOSEFDIF(fd) \
     do \
     { \
-        if ((fd)) \
+        if ((fd) > 2) \
         { \
             close((fd)); \
         } \
-        fd = NULL; \
+        fd = 0; \
     } while (0)
 
 
@@ -408,26 +409,6 @@
             fclose((f)); \
         } \
         f = NULL; \
-    } while (0)
-
-
-// release & null reference
-#define RELEASE(o) \
-    do \
-    { \
-        [o release]; \
-        o = nil; \
-    } while (0)
-
-
-// conditionally release obj-c object
-#define RELEASEIF(o) \
-    do \
-    { \
-        if ((o)) \
-        { \
-            RELEASE(o); \
-        } \
     } while (0)
 
 

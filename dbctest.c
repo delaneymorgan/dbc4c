@@ -9,6 +9,7 @@
 
 static bool ALL_Success( const char* const qString) {
 	bool ret = false;
+	int test = 0;
 	char* newString = NULL;
 	
 	PRECONDITION( qString);
@@ -16,8 +17,8 @@ static bool ALL_Success( const char* const qString) {
 	newString = strdup( kTestString);
 	MIDCONDITION( newString);
 	
-	switch (ret) {
-		case true:
+	switch (test) {
+		case 1:
 			FAIL;
 			break;
 			
@@ -83,8 +84,9 @@ EXCEPTION:
 
 static bool FAIL_Fail( const char* const qString) {
 	bool ret = false;
+	int test = 1;
 	
-	switch (ret) {
+	switch (test) {
 		default:
 			FAIL;
 			break;
