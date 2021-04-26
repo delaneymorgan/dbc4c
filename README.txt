@@ -264,27 +264,51 @@ Our DBC module provides:
   CLOSEFILEIF() - conditionally close a file stream
 
 These macros do nothing if the passed parameter is 0 or NULL.  Otherwise they
-free or close the specified item.  We’ve also added RELEASEIF() for Objective-C
-objects.  We probably need some other macros, but off the top of our heads, we
-can’t think of any.
+free or close the specified item.  We probably need some other macros, but off
+the top of our heads, we can’t think of any.
 
-Speaking of “release”, reference counted objects are a bit of a challenge for
-DBC.  Pointers are easy - they’re either allocated, or they’re not.  How can
-you tell after the fact if a reference was incremented or not unless you
-checked initially?  Just because a reference was incremented, is it correct to
-decrement it?  Are reference leaks even all that important if horrible
-exceptions are being raised?  We’re inclined to think not.  Tell us what you
-think.
+NOTE: DBC4C is strictly for C.  It's not for C++ or Objective-C.  Why?
+
+    1. C++/Objective-C built-in exceptions.
+    2. Reference-counted and other smart pointers
+
+Built-in exceptions bypass any of the DBC exception handling and thus avoid
+freeing dynamically allocated objects.
+
+Then there are reference-counted pointers.  Normal C-like pointers are easy -
+they’re either allocated, or they’re not.  How can you tell after the fact
+if a reference was incremented or not unless you checked initially, and
+stashed the count somewhere to check later?  Just because a reference was
+incremented, is it correct to decrement it?  That's a can of worms.
+
+Nevertheless, PRECONDITIONs that raise exceptions may still be useful for
+those languages.  That's a whole 'nother project though.
 
 DBC messages can be directed to the console, syslog, or suppressed depending
 on flag settings.  Messages include: filename; function name; line number and
-also test expression which evaluated as false.
+also the test expression which evaluated as false.
 
 One last fringe benefit of this technique is that it makes it simple to
 identify white-box tests in your code.  Basically every CONDITION is a possible
 point of failure that you can grep and wc for.
 
-We realise this is a rapid-fire overview of something that woutd permeate every
+To build the test program:
+
+    mkdir build
+    cd build
+    cmake ..
+    make
+    ./dbctest
+
+The test program should print the following:
+
+damco: PRECONDITION failed - /home/craig/project/dbc4c/dbctest.c:PRECONDITION_Fail:43, "NULL" is false
+damco: MIDCONDITION failed - /home/craig/project/dbc4c/dbctest.c:MIDCONDITION_Fail:58, "NULL" is false
+damco: POSTCONDITION failed - /home/craig/project/dbc4c/dbctest.c:POSTCONDITION_Fail:73, "false" is false
+damco: failed - /home/craig/project/dbc4c/dbctest.c:FAIL_Fail:91
+DBC module is working correctly
+
+We realise this is a rapid-fire overview of something that would permeate every
 corner of your C programs if you use it, but it’s really not much more
 complicated than that.  Take it. Enjoy it.  Let us know how it could be
 improved.

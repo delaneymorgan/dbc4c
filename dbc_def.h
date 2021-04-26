@@ -26,8 +26,6 @@
  * FREEIF( automatic_pointer) - conditionally free automatic pointer
  * CLOSEFDIF( file_descriptor) - conditionally file descriptor
  * CLOSEIF( file_pointer) - conditionally file pointer
- * RELEASE( object_reference) - release & null object reference
- * RELEASEIF( object_reference) - conditionally release & null object reference
  *
  * Only use DBC for sanity checks, like you would "assert".  Do not use DBC to detect
  * conditions that might occur in normal situations.  i.e., DBC should not be used to
