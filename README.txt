@@ -43,8 +43,6 @@ TWidget* Widget_New( const char* qString1, const char* qString2) {
         return NULL;
     if (!qString2)
         return NULL;
-    if (!qString3)
-        return NULL;
     newWidget = malloc( sizeof( TWidget));
     if (!newWidget)
         return NULL;
