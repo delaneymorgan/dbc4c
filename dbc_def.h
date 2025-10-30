@@ -25,7 +25,7 @@
  * EXCEPTION_EX( exception_type) - specialised exception handler start
  * FREEIF( automatic_pointer) - conditionally free automatic pointer
  * CLOSEFDIF( file_descriptor) - conditionally file descriptor
- * CLOSEIF( file_pointer) - conditionally file pointer
+ * CLOSEFILEIF( file_pointer) - conditionally file pointer
  *
  * Only use DBC for sanity checks, like you would "assert".  Do not use DBC to detect
  * conditions that might occur in normal situations.  i.e., DBC should not be used to
@@ -99,8 +99,8 @@
  *
  */
 
-#ifndef dbc_def__h
-#define dbc_def__h
+#ifndef dbc4c_def__h
+#define dbc4c_def__h
 
 
 #include <assert.h>
@@ -110,6 +110,10 @@
 
 // =====================================================================
 
+
+#if defined( __cplusplus )
+extern "C" {
+#endif	// defined( __cplusplus )
 
 // define your own or modify this to identify your organisation in DBC logs
 // NOTE: make sure string is in double quotes
@@ -394,7 +398,7 @@
         { \
             close((fd)); \
         } \
-        fd = 0; \
+        fd = -1; \
     } while (0)
 
 
@@ -410,5 +414,10 @@
     } while (0)
 
 
-#endif  // dbc_def__h
+#if defined( __cplusplus )
+}
+#endif	// defined( __cplusplus )
+
+
+#endif  // dbc4c_def__h
 

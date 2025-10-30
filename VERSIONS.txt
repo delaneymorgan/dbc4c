@@ -1,3 +1,6 @@
+Version 1.0.4
+- Some copilot code review points
+
 Version 1.0.3
 - Fixed ORGANISATION typo
 - Added RELEASE macro
