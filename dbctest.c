@@ -38,8 +38,8 @@ EXCEPTION:
 
 
 static bool PRECONDITION_Fail( const char* const qString) {
-	bool ret = false;
-	
+    bool ret = false;
+    UNUSED(qString);
 	PRECONDITION( NULL);
 	
 	ret = true;
@@ -53,8 +53,8 @@ EXCEPTION:
 
 
 static bool MIDCONDITION_Fail( const char* const qString) {
-	bool ret = false;
-	
+    bool ret = false;
+    UNUSED(qString);
 	MIDCONDITION( NULL);
 	
 	ret = true;
@@ -68,8 +68,8 @@ EXCEPTION:
 
 
 static bool POSTCONDITION_Fail( const char* const qString) {
-	bool ret = false;
-	
+    bool ret = false;
+    UNUSED(qString);
 	POSTCONDITION( false);
 	
 	ret = true;
@@ -83,10 +83,11 @@ EXCEPTION:
 
 
 static bool FAIL_Fail( const char* const qString) {
-	bool ret = false;
-	int test = 1;
-	
-	switch (test) {
+    bool ret = false;
+    int test = 1;
+    UNUSED(qString);
+
+    switch (test) {
 		default:
 			FAIL;
 			break;
@@ -103,9 +104,11 @@ EXCEPTION:
 
 
 int main( int argc, char* argv[]) {
-	int ret = -1;
-	bool status;
-	const char* somePtr = kTestString;
+    int ret = -1;
+    bool status;
+    const char* somePtr = kTestString;
+    UNUSED(argc);
+    UNUSED(argv);
 	
 	status = ALL_Success( somePtr);
 	MIDCONDITION( status);

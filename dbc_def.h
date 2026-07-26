@@ -107,8 +107,15 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <syslog.h>
-#include <unistd.h>
+
+#if defined(_WIN32) || defined(_WIN64)
+    #include <io.h>
+#else
+    #include <unistd.h>
+    #ifdef DBC_LOGGING_SYSLOG
+        #include <syslog.h>
+    #endif
+#endif
 
 // =====================================================================
 
@@ -144,10 +151,14 @@ extern "C" {
 #define EXCEPTION_EX(where) EXCEPTION##where
 
 #ifdef DBC_LOGGING_SYSLOG
-    // send logs to syslog
-    // NOTE: logging will be separately controlled by NDEBUG flag
-    #define ERRLOGPRINTF syslog
-    #define ERRLOGDEST LOG_ERR
+    // send logs to syslog when available; otherwise fall back to standard output
+    #if defined(_WIN32) || defined(_WIN64)
+        #define ERRLOGPRINTF fprintf
+        #define ERRLOGDEST stderr
+    #else
+        #define ERRLOGPRINTF syslog
+        #define ERRLOGDEST LOG_ERR
+    #endif
 #else
     // use stdout console
     #define ERRLOGPRINTF fprintf
@@ -393,15 +404,27 @@ extern "C" {
 
 // conditionally free file descriptor
 // > 2 file descriptor => open file (stdin = 0, stdout = 1, stderr = 2)
-#define CLOSEFDIF(fd) \
-    do \
-    { \
-        if ((fd) > 2) \
+#if defined(_WIN32) || defined(_WIN64)
+    #define CLOSEFDIF(fd) \
+        do \
         { \
-            close((fd)); \
-        } \
-        fd = -1; \
-    } while (0)
+            if ((fd) > 2) \
+            { \
+                _close((fd)); \
+            } \
+            fd = -1; \
+        } while (0)
+#else
+    #define CLOSEFDIF(fd) \
+        do \
+        { \
+            if ((fd) > 2) \
+            { \
+                close((fd)); \
+            } \
+            fd = -1; \
+        } while (0)
+#endif
 
 
 // conditionally free file stream
